@@ -16,22 +16,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-    <?php
-        session_start();
-
-        $con = new mysqli("localhost","root","","car");
-
-        if($con = mysqli_connect("localhost", "root", "", "car"))
-        {
-        }
-
-        else
-        {
-            print "<br/><br/><br/><br/>";
-            print "<font color = 'red'> Could not connect to the database. </font>";
-        }
-    ?>
 </head>
 
 <body style="background-color: white;" data-spy="scroll" data-offset="4" data-target=".navbar">
@@ -55,32 +39,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                     <li class="nav-item" style="font-size: 20px; font-weight: bolder;">
                         <a class="nav-link" href="home.php">
-                            <?php 
-                                $con = new mysqli("localhost","root","","car");
-                                $stmt = $con->prepare($sql = "SELECT he1 FROM header"); 
-                                $stmt -> execute();
-                                $stmt ->bind_result($he1);
-                                $stmt ->fetch(); 
-                                print"$he1";
-                            ?>   
+  
                         </a>
                     </li>
 
-                    <?php
-                        if (isset($_SESSION['check']))
-                        {
-                            $con = new mysqli("localhost","root","","car");
-                            $stmt = $con->prepare($sql = "SELECT he2 FROM header"); 
-                            $stmt -> execute();
-                            $stmt ->bind_result($he2);
-                            $stmt ->fetch(); 
-
-                            print"<li class='nav-item'> <font color='black'> ~~~ </font></li>
-                                <li class='nav-item' style='font-size: 20px; font-weight: bolder;'>
-                                    <a class='nav-link' href='selectmodel.php'> $he2 </a>
-                                </li>";
-                        }
-                    ?>
 
                     <li class="nav-item">
                         <font color="black">~~~</font>
