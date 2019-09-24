@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <head>
     <title>
-        Header.
+        <?php echo $title; ?>
     </title>
 
     <meta charset="utf-8">
@@ -22,8 +22,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div id = "container">
         <nav class="navbar navbar-expand-sm navbar-dark fixed-top" style="background-color: black;">
         
-            <a class="navbar-brand" href="index.php">
-                <img src="indexResources/logo.png" alt="logo" style="width: 100px; height: 50px;">
+            <a class="navbar-brand" href="http://localhost/VRS/index.php/homepage">
+                <img src="images/logo.png" style="width: 100px; height: 50px;">
             </a>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -38,8 +38,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </li>
 
                     <li class="nav-item" style="font-size: 20px; font-weight: bolder;">
-                        <a class="nav-link" href="home.php">
-  
+                        <a class="nav-link" href="http://localhost/VRS/index.php/venue">
+                            Venue
                         </a>
                     </li>
 
@@ -47,76 +47,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <li class="nav-item">
                         <font color="black">~~~</font>
                     </li>
-
-                    <li class="nav-item" style="font-size: 20px; font-weight: bolder;">
-                        <a class="nav-link" href="tech.php">
-                            <?php 
-                                $con = new mysqli("localhost","root","","car");
-                                $stmt = $con->prepare($sql = "SELECT he3 FROM header"); 
-                                $stmt -> execute();
-                                $stmt ->bind_result($he3);
-                                $stmt ->fetch(); 
-                                print"$he3";
-                            ?>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <font color="black">~~~</font>
-                    </li>
-
-                    <li class="nav-item" style="font-size: 20px; font-weight: bolder;">
-                        <a class="nav-link" href="about.php">
-                            <?php 
-                                $con = new mysqli("localhost","root","","car");
-                                $stmt = $con->prepare($sql = "SELECT he4 FROM header"); 
-                                $stmt -> execute();
-                                $stmt ->bind_result($he4);
-                                $stmt ->fetch(); 
-                                print"$he4";
-                            ?>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <font color="black">~~~</font>
-                    </li>
-
-                    <li class="nav-item dropdown" style="font-size: 20px; background-color: brown; font-weight: bolder;">
-                        <?php
-                            if (isset($_SESSION['check']))
-                            {
-                            $userA = $_SESSION["transfer"];
-                            $con = new mysqli("localhost","root","","car");
-                            $stmt = $con->prepare($sql = "SELECT fname FROM userinfo WHERE username = '$userA'"); 
-                            $stmt -> execute();
-                            $stmt ->bind_result($he5);
-                            $stmt ->fetch(); 
-                            print"<a class='nav-link dropdown-toggle' href='#'' id='navbardrop' data-toggle='dropdown'> 
-                                    Hello, $he5 </a>
-                                    <div class='dropdown-menu' style = 'background-color: grey;'>
-                                    <a class='dropdown-item' href='profile.php'>Profile</a>
-                                    <a class='dropdown-item' href='sessiondelete.php'>Log Out</a>
-                                    </div>
-                                    ";
-                            } 
-
-                            else
-                            {
-                            $con = new mysqli("localhost","root","","car");
-                            $stmt = $con->prepare($sql = "SELECT he5 FROM header"); 
-                            $stmt -> execute();
-                            $stmt ->bind_result($he5);
-                            $stmt ->fetch(); 
-                            print"<a class='nav-link' href='landingbay.php'> $he5 </a>";
-                            }
-                        ?>
-                    </li>
-
-                    <li class="nav-item">
-                        <font color="black">~</font>
-                    </li>
-
 
                     <li class="nav-item" style="font-size: 20px; font-weight: bolder;">
                         <a class="nav-link">
