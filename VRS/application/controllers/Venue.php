@@ -5,8 +5,9 @@ class Venue extends CI_Controller
 {
     public function index()
 	{
-		$this->load->view('header');
-		$this->load->view('home');
+		$data['title'] = "VRS - VENUE";
+
+		$this->load->view('header', $data);
 		$this->load->view('footer');
 	}
 }
