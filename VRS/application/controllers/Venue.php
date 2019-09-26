@@ -10,7 +10,7 @@ class Venue extends CI_Controller
 		$data['title'] = "VRS - VENUE";
 
 		$this->load->view('header', $data);
-		$this->load->view('home');
+		$this->load->view('venue');
 		$this->load->view('footer');
 	}
 }
