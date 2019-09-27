@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <nav class="navbar navbar-expand-sm navbar-dark fixed-top" style="background-color: black;">
         
             <a class="navbar-brand" href="http://localhost/VRS/index.php/homepage">
-                <img src="images/logo.png" style="width: 100px; height: 50px;">
+            Home
             </a>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
