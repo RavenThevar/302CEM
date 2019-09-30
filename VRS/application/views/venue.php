@@ -3,7 +3,7 @@
 </br>
 
 <div class="container">
-  <h2>Add Venue</h2>
+  <h2>Add Venue - [ADMIN]</h2>
   
   </br>
   
@@ -45,7 +45,7 @@
                 <font color = 'green'> Your record is successfully added.! </font>
                </div>
               ";
-    }    
+    }
 ?>
 
 </br>
@@ -53,7 +53,7 @@
 
 <div class ="container">
     <div row>
-        <h1> Your Current Venues </h1>
+        <h1> Your Existing Venues - [ADMIN] </h1>
     </div>
     <table class="table table-hover table-striped table-bordered">
         
@@ -63,12 +63,14 @@
                 <th>Name</th>
                 <th>Capacity</th>
                 <th>Location</th>
+                <th>Availability</th>
             </tr>
         </thead>
 
         <tbody>
             <?php 
                 $query = $this->db->get('venue');
+                $query2 = $this->db->get('venueavailability');
 
                 foreach ($query->result() as $row)
                 {
@@ -76,8 +78,26 @@
     				echo"<td><font color='black'>$row->venue_id</font></td>";
     				echo"<td><font color='black'>$row->venue_name</font></td>";
     				echo"<td><font color='black'>$row->venue_capacity</font></td>";
-    				echo"<td><font color='black'>$row->venue_location</font></td>";
-    				echo "</tr>";
+                    echo"<td><font color='black'>$row->venue_location</font></td>";
+
+                    $count = $row->venue_id;
+                    
+                    foreach ($query2->result() as $row2)
+                    {
+                        if ($count == $row2->venue_id && $row2->venue_avail == 0)
+                        {
+                            $status = "BOOKED";
+                            echo"<td><font color='black'>$status</font></td>";
+                        }
+        
+                        else if ($count == $row2->venue_id && $row2->venue_avail == 1)
+                        {
+                            $status = "AVAILABLE";
+                            echo"<td><font color='black'>$status</font></td>";
+                        }
+                    }   
+
+                    echo "</tr>";
                 }
             ?>
         </tbody>
