@@ -3,14 +3,16 @@
 </br>
 
 <div class="container">
-  <h2>Add Venue - [ADMIN]</h2>
+  <div class="row">
+    <h2>Add Venue - [ADMIN]</h2>
+  </div>
   
   </br>
   
   <form name="venue" method="POST">
 
     <div class="form-group">
-      <label for="email">Venue Name:</label>
+      <label for="vName">Venue Name:</label>
       <input type="text" class="form-control" id="vName" placeholder="e.g Mrs Wedding Hall" name="vName">
     </div>
 
@@ -53,7 +55,7 @@
 
 <div class ="container">
     <div row>
-        <h1> Your Existing Venues - [ADMIN] </h1>
+        <h1>Your Existing Venues - [ADMIN]</h1>
     </div>
     <table class="table table-hover table-striped table-bordered">
         
@@ -106,4 +108,28 @@
 
 </div>
 
+</br>
+</br>
+
+<div class="container">
+    <div class="row">
+        <h1>Change Venue Status</h1>
+    </div>
+
+    <form name = "venueChange" METHOD = "POST">
+        
+        <div class="form-group">
+            <label for="vID">#Venue ID:</label>
+            <input type="text" class="form-control" id="vID" placeholder="e.g 22" name="vID">
+        </div>
+
+        <div class="form-group">
+            <label for="vStatus">#Venue Availability:</label>
+            <input type="text" class="form-control" id="vStatus" placeholder="e.g booked." name="vStatus">
+        </div>
+        
+
+    </form>
+
+</div>
 
