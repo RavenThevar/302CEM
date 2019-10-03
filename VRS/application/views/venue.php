@@ -9,7 +9,7 @@
   
   </br>
   
-  <form name="venue" method="POST">
+  <form name="venue" action= "http://localhost/VRS/index.php/venue" method="POST">
 
     <div class="form-group">
       <label for="vName">Venue Name:</label>
@@ -37,9 +37,9 @@
         $data2 = array(
 			'venue_name' => $_POST['vName'],
 			'venue_capacity' => $_POST['vCapacity'],
-			'venue_location' => $_POST['vLocation']
+            'venue_location' => $_POST['vLocation'],
+            'venue_avail' => "1"
             );
-
         $this->db->insert('venue', $data2);
 
         print "</br>
@@ -72,7 +72,6 @@
         <tbody>
             <?php 
                 $query = $this->db->get('venue');
-                $query2 = $this->db->get('venueavailability');
 
                 foreach ($query->result() as $row)
                 {
@@ -82,25 +81,19 @@
     				echo"<td><font color='black'>$row->venue_capacity</font></td>";
                     echo"<td><font color='black'>$row->venue_location</font></td>";
 
-                    $count = $row->venue_id;
-                    
-                    foreach ($query2->result() as $row2)
+                   if ($row->venue_avail == 0)
                     {
-                        if ($count == $row2->venue_id && $row2->venue_avail == 0)
-                        {
-                            $status = "BOOKED";
-                            echo"<td><font color='black'>$status</font></td>";
-                        }
+                        $status = "BOOKED";
+                        echo"<td><font color='black'>$status</font></td>";
+                    }
         
-                        else if ($count == $row2->venue_id && $row2->venue_avail == 1)
-                        {
-                            $status = "AVAILABLE";
-                            echo"<td><font color='black'>$status</font></td>";
-                        }
-                    }   
-
+                    else if ($row->venue_avail == 1)
+                    {
+                        $status = "AVAILABLE";
+                        echo"<td><font color='black'>$status</font></td>";
+                    }
+                }   
                     echo "</tr>";
-                }
             ?>
         </tbody>
 
@@ -113,23 +106,47 @@
 
 <div class="container">
     <div class="row">
-        <h1>Change Venue Status</h1>
+        <h1>Change Venue Status - [ADMIN]</h1>
     </div>
 
-    <form name = "venueChange" METHOD = "POST">
-        
-        <div class="form-group">
-            <label for="vID">#Venue ID:</label>
-            <input type="text" class="form-control" id="vID" placeholder="e.g 22" name="vID">
+    <form name = "venueChange" action= "http://localhost/VRS/index.php/venue" METHOD = "POST">
+        <div class="col-lg-2">
+            <div class="form-group">
+                <label for="vID">#Venue ID:</label>
+                <input type="text" class="form-control" id="vID" placeholder="e.g 22" name="vID">
+            </div>
         </div>
 
-        <div class="form-group">
-            <label for="vStatus">#Venue Availability:</label>
-            <input type="text" class="form-control" id="vStatus" placeholder="e.g booked." name="vStatus">
+            <div class="form-group; col-lg-3">
+                <label for="vStatus">#Venue Availability:</label>
+                <input type="text" class="form-control" id="vStatus" placeholder="e.g 0 = Booked , 1 = Available." name="vStatus">
+            </div>
+        </br>
+        <div class="col-lg-2">
+            <button type="submit" class="btn btn-primary">ALTER</button>
         </div>
-        
 
     </form>
+
+    <?php
+        if(isset ($_POST['vID']) && isset ($_POST['vStatus']))
+        {
+            $data3 = array
+                (
+                'venue_avail' => $_POST['vStatus']
+                );
+            $this->db->set($data3);
+            $this->db->where('venue_id', $_POST['vID']);
+            $this->db->update('venue');
+
+            print "</br>
+            <div class = 'container'>
+             <font color = 'green'> The records has been successfully altered. </font>
+            </div>
+            </br>
+           ";
+        }
+    ?>
 
 </div>
 
