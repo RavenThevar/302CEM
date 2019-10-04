@@ -9,7 +9,7 @@
   
   </br>
   
-  <form name="venue" action= "http://localhost/VRS/index.php/venue" method="POST">
+  <form name="venue" method="POST">
 
     <div class="form-group">
       <label for="vName">Venue Name:</label>
@@ -34,19 +34,35 @@
 <?php
     if( isset($_POST['vName']) && isset($_POST['vCapacity']) && isset($_POST['vLocation']) )
     {
-        $data2 = array(
-			'venue_name' => $_POST['vName'],
-			'venue_capacity' => $_POST['vCapacity'],
-            'venue_location' => $_POST['vLocation'],
-            'venue_avail' => "1"
-            );
-        $this->db->insert('venue', $data2);
+        if(is_numeric($_POST['vCapacity']))
+        {
+            $data2 = array(
+                'venue_name' => $_POST['vName'],
+                'venue_capacity' => $_POST['vCapacity'],
+                'venue_location' => $_POST['vLocation'],
+                'venue_avail' => "1"
+                );
+            $this->db->insert('venue', $data2);
 
-        print "</br>
-               <div class = 'container'>
-                <font color = 'green'> Your record is successfully added.! </font>
-               </div>
-              ";
+            print "</br>
+                <div class = 'container'>
+                    <font color = 'green'> Your record is successfully added.! </font>
+                </div>
+                ";
+        }
+
+        else
+        {
+            print "</br>
+            <div class = 'container'>
+                <font color = 'red'> Only numeric is permitted for Venue Capacity.! </font>
+            </div>
+            ";
+        }
+
+        $page = $_SERVER['PHP_SELF'];
+        $sec = "2";
+        header("Refresh: $sec; url=$page");
     }
 ?>
 
@@ -109,7 +125,7 @@
         <h1>Change Venue Status - [ADMIN]</h1>
     </div>
 
-    <form name = "venueChange" action= "http://localhost/VRS/index.php/venue" METHOD = "POST">
+    <form name = "venueChange" method = "POST">
         <div class="col-lg-2">
             <div class="form-group">
                 <label for="vID">#Venue ID:</label>
@@ -131,20 +147,37 @@
     <?php
         if(isset ($_POST['vID']) && isset ($_POST['vStatus']))
         {
-            $data3 = array
-                (
-                'venue_avail' => $_POST['vStatus']
-                );
-            $this->db->set($data3);
-            $this->db->where('venue_id', $_POST['vID']);
-            $this->db->update('venue');
+            if($_POST['vStatus'] == 0 || $_POST['vStatus'] == 1 )
+            {
+                $data3 = array
+                    (
+                    'venue_avail' => $_POST['vStatus']
+                    );
+                $this->db->set($data3);
+                $this->db->where('venue_id', $_POST['vID']);
+                $this->db->update('venue');
 
-            print "</br>
-            <div class = 'container'>
-             <font color = 'green'> The records has been successfully altered. </font>
-            </div>
-            </br>
-           ";
+                print "</br>
+                <div class = 'container'>
+                <font color = 'green'> The records has been successfully altered. </font>
+                </div>
+                </br>
+                ";
+            }
+
+           else
+           {
+                print "</br>
+                <div class = 'container'>
+                <font color = 'red'> Invalid option entered for the Venue Availability.! </font>
+                </div>
+                </br>
+                ";
+           }
+
+           $page = $_SERVER['PHP_SELF'];
+           $sec = "2";
+           header("Refresh: $sec; url=$page");
         }
     ?>
 
