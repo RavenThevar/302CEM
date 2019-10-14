@@ -82,6 +82,7 @@
                 <th>Capacity</th>
                 <th>Location</th>
                 <th>Availability</th>
+                <th>Booked By:</th>
             </tr>
         </thead>
 
@@ -101,12 +102,16 @@
                     {
                         $status = "BOOKED";
                         echo"<td><font color='black'>$status</font></td>";
+
+                        /*$array = array('booking' => $row->venue_id, 'emp_dept' => $dept);
+                        $this->db->where($array);*/
                     }
         
-                    else if ($row->venue_avail == 1)
+                    else
                     {
                         $status = "AVAILABLE";
                         echo"<td><font color='black'>$status</font></td>";
+                        echo"<td><font color='black'>N/A</font></td>";
                     }
                 }   
                     echo "</tr>";
