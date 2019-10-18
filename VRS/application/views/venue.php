@@ -1,16 +1,40 @@
+<?php
+
+    namespace application\views;
+
+    class Names
+    {
+        public $dub;
+
+        public function set_whether_it_is_a_string($peek)
+        {
+            $this->dub = $peek;
+        }
+
+        public function get_whether_it_is_a_string()
+        {
+            return $this->dub;
+        }
+
+    }
+
+?>
+
 </br>
 </br>
 </br>
 
 <div class="container">
-  <h2>Add Venue</h2>
+  <div class="row">
+    <h2>Add Venue - [ADMIN]</h2>
+  </div>
   
   </br>
   
   <form name="venue" method="POST">
 
     <div class="form-group">
-      <label for="email">Venue Name:</label>
+      <label for="vName">Venue Name:</label>
       <input type="text" class="form-control" id="vName" placeholder="e.g Mrs Wedding Hall" name="vName">
     </div>
 
@@ -32,20 +56,36 @@
 <?php
     if( isset($_POST['vName']) && isset($_POST['vCapacity']) && isset($_POST['vLocation']) )
     {
-        $data2 = array(
-			'venue_name' => $_POST['vName'],
-			'venue_capacity' => $_POST['vCapacity'],
-			'venue_location' => $_POST['vLocation']
-            );
+        if(is_numeric($_POST['vCapacity']))
+        {
+            $data2 = array(
+                'venue_name' => $_POST['vName'],
+                'venue_capacity' => $_POST['vCapacity'],
+                'venue_location' => $_POST['vLocation'],
+                'venue_avail' => "1"
+                );
+            $this->db->insert('venue', $data2);
 
-        $this->db->insert('venue', $data2);
+            print "</br>
+                <div class = 'container'>
+                    <font color = 'green'> Your record is successfully added.! </font>
+                </div>
+                ";
+        }
 
-        print "</br>
-               <div class = 'container'>
-                <font color = 'green'> Your record is successfully added.! </font>
-               </div>
-              ";
-    }    
+        else
+        {
+            print "</br>
+            <div class = 'container'>
+                <font color = 'red'> Only numeric is permitted for Venue Capacity.! </font>
+            </div>
+            ";
+        }
+
+        $page = $_SERVER['PHP_SELF'];
+        $sec = "2";
+        header("Refresh: $sec; url=$page");
+    }
 ?>
 
 </br>
@@ -53,7 +93,7 @@
 
 <div class ="container">
     <div row>
-        <h1> Your Current Venues </h1>
+        <h1>Your Existing Venues - [ADMIN]</h1>
     </div>
     <table class="table table-hover table-striped table-bordered">
         
@@ -63,12 +103,15 @@
                 <th>Name</th>
                 <th>Capacity</th>
                 <th>Location</th>
+                <th>Availability</th>
+                <th>Booked By (User) </th>
             </tr>
         </thead>
 
         <tbody>
             <?php 
                 $query = $this->db->get('venue');
+                $query2 = $this->db->get('booking');
 
                 foreach ($query->result() as $row)
                 {
@@ -76,9 +119,29 @@
     				echo"<td><font color='black'>$row->venue_id</font></td>";
     				echo"<td><font color='black'>$row->venue_name</font></td>";
     				echo"<td><font color='black'>$row->venue_capacity</font></td>";
-    				echo"<td><font color='black'>$row->venue_location</font></td>";
-    				echo "</tr>";
-                }
+                    echo"<td><font color='black'>$row->venue_location</font></td>";
+                    $huf = $row->venue_id;
+                   if ($row->venue_avail == 0)
+                    {
+                        echo"<td><font color='black'>BOOKED</font></td>";
+                        
+                        foreach ($query2->result() as $row2)
+                        {
+                            if ($row->venue_id == $row2->booking_venue_id)
+                            {
+                                echo"<td><font color='black'>$row2->booking_user_id</font></td>";
+                            }
+                        }
+                        
+                    }
+        
+                    else
+                    {
+                        echo"<td><font color='black'>AVAILABLE</font></td>";
+                        echo"<td><font color='black'>N/A</font></td>";
+                    }
+                }   
+                    echo "</tr>";
             ?>
         </tbody>
 
@@ -86,4 +149,70 @@
 
 </div>
 
+</br>
+</br>
+
+<div class="container">
+    <div class="row">
+        <h1>Change Venue Status To Available - [ADMIN]</h1>
+    </div>
+
+    <form name = "venueChange" method = "POST">
+        <div class="col-lg-2">
+            <div class="form-group">
+                <label for="vID">#Venue ID:</label>
+                <input type="text" class="form-control" id="vID" placeholder="e.g 22" name="vID">
+            </div>
+        </div>
+
+        </br>
+        <div class="col-lg-2">
+            <button type="submit" class="btn btn-primary">ALTER</button>
+        </div>
+
+    </form>
+
+    <?php
+        if(isset ($_POST['vID']))
+        {
+               if (is_numeric($_POST['vID']))
+               {
+                $data4 = array
+                    (
+                    'venue_avail' => 1
+                    );
+                $this->db->set($data4);
+                $this->db->where('venue_id', $_POST['vID']);
+                $this->db->update('venue');
+                
+                $this->db->select('booking_user_id');
+                $this->db->where('booking_venue_id', $_POST['vID']);
+                $this->db->delete('booking');
+        
+                print "</br>
+                <div class = 'container'>
+                <font color = 'green'> The records has been successfully altered. </font>
+                </div>
+                </br>
+                ";
+
+                $page = $_SERVER['PHP_SELF'];
+                $sec = "2";
+                header("Refresh: $sec; url=$page");
+               }
+
+               else
+               {
+                    print "</br>
+                    <div class = 'container'>
+                    <font color = 'red'> Invalid option entered for the Venue Availability.! </font>
+                    </div>
+                    </br>
+                    ";
+               }
+        }
+
+    ?>
+
+</div>
 

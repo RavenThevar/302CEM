@@ -43,6 +43,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <font color="black">~~~</font>
+                    </li>
+
+                    <li class="nav-item" style="font-size: 20px; font-weight: bolder;">
+                        <a class="nav-link" href="http://localhost/VRS/index.php/venueCust">
+                            Venue (Customer)
+                        </a>
+                    </li>
+
 
                     <li class="nav-item">
                         <font color="black">~~~</font>
