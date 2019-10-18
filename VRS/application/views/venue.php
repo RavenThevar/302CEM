@@ -1,3 +1,25 @@
+<?php
+
+    namespace application\views;
+
+    class Names
+    {
+        public $dub;
+
+        public function set_whether_it_is_a_string($peek)
+        {
+            $this->dub = $peek;
+        }
+
+        public function get_whether_it_is_a_string()
+        {
+            return $this->dub;
+        }
+
+    }
+
+?>
+
 </br>
 </br>
 </br>
@@ -82,13 +104,14 @@
                 <th>Capacity</th>
                 <th>Location</th>
                 <th>Availability</th>
-                <th>Booked By:</th>
+                <th>Booked By (User) </th>
             </tr>
         </thead>
 
         <tbody>
             <?php 
                 $query = $this->db->get('venue');
+                $query2 = $this->db->get('booking');
 
                 foreach ($query->result() as $row)
                 {
@@ -97,20 +120,24 @@
     				echo"<td><font color='black'>$row->venue_name</font></td>";
     				echo"<td><font color='black'>$row->venue_capacity</font></td>";
                     echo"<td><font color='black'>$row->venue_location</font></td>";
-
+                    $huf = $row->venue_id;
                    if ($row->venue_avail == 0)
                     {
-                        $status = "BOOKED";
-                        echo"<td><font color='black'>$status</font></td>";
-
-                        /*$array = array('booking' => $row->venue_id, 'emp_dept' => $dept);
-                        $this->db->where($array);*/
+                        echo"<td><font color='black'>BOOKED</font></td>";
+                        
+                        foreach ($query2->result() as $row2)
+                        {
+                            if ($row->venue_id == $row2->booking_venue_id)
+                            {
+                                echo"<td><font color='black'>$row2->booking_user_id</font></td>";
+                            }
+                        }
+                        
                     }
         
                     else
                     {
-                        $status = "AVAILABLE";
-                        echo"<td><font color='black'>$status</font></td>";
+                        echo"<td><font color='black'>AVAILABLE</font></td>";
                         echo"<td><font color='black'>N/A</font></td>";
                     }
                 }   
@@ -127,7 +154,7 @@
 
 <div class="container">
     <div class="row">
-        <h1>Change Venue Status - [ADMIN]</h1>
+        <h1>Change Venue Status To Available - [ADMIN]</h1>
     </div>
 
     <form name = "venueChange" method = "POST">
@@ -138,10 +165,6 @@
             </div>
         </div>
 
-            <div class="form-group; col-lg-3">
-                <label for="vStatus">#Venue Availability:</label>
-                <input type="text" class="form-control" id="vStatus" placeholder="e.g 0 = Booked , 1 = Available." name="vStatus">
-            </div>
         </br>
         <div class="col-lg-2">
             <button type="submit" class="btn btn-primary">ALTER</button>
@@ -150,40 +173,45 @@
     </form>
 
     <?php
-        if(isset ($_POST['vID']) && isset ($_POST['vStatus']))
+        if(isset ($_POST['vID']))
         {
-            if($_POST['vStatus'] == 0 || $_POST['vStatus'] == 1 )
-            {
-                $data3 = array
+               if (is_numeric($_POST['vID']))
+               {
+                $data4 = array
                     (
-                    'venue_avail' => $_POST['vStatus']
+                    'venue_avail' => 1
                     );
-                $this->db->set($data3);
+                $this->db->set($data4);
                 $this->db->where('venue_id', $_POST['vID']);
                 $this->db->update('venue');
-
+                
+                $this->db->select('booking_user_id');
+                $this->db->where('booking_venue_id', $_POST['vID']);
+                $this->db->delete('booking');
+        
                 print "</br>
                 <div class = 'container'>
                 <font color = 'green'> The records has been successfully altered. </font>
                 </div>
                 </br>
                 ";
-            }
 
-           else
-           {
-                print "</br>
-                <div class = 'container'>
-                <font color = 'red'> Invalid option entered for the Venue Availability.! </font>
-                </div>
-                </br>
-                ";
-           }
+                $page = $_SERVER['PHP_SELF'];
+                $sec = "2";
+                header("Refresh: $sec; url=$page");
+               }
 
-           $page = $_SERVER['PHP_SELF'];
-           $sec = "2";
-           header("Refresh: $sec; url=$page");
+               else
+               {
+                    print "</br>
+                    <div class = 'container'>
+                    <font color = 'red'> Invalid option entered for the Venue Availability.! </font>
+                    </div>
+                    </br>
+                    ";
+               }
         }
+
     ?>
 
 </div>
