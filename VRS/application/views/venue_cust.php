@@ -67,13 +67,20 @@
     <?php
         if(isset ($_POST['vID']))
         {
-            $data4 = array
+            $data1 = array
                 (
                 'venue_avail' => 0
                 );
-            $this->db->set($data4);
+            $this->db->set($data1);
             $this->db->where('venue_id', $_POST['vID']);
             $this->db->update('venue');
+
+            $data3 = array
+                (
+                'booking_venue_id' => $_POST['vID'],
+                'booking_user_id' => "1"
+                );
+            $this->db->insert('booking', $data3);
 
             print "</br>
             <div class = 'container'>
