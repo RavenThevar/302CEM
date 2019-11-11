@@ -62,7 +62,8 @@
                 'venue_name' => $_POST['vName'],
                 'venue_capacity' => $_POST['vCapacity'],
                 'venue_location' => $_POST['vLocation'],
-                'venue_avail' => "1"
+                'venue_avail' => "1",
+                'venue_expiry' => "N/A"
                 );
             $this->db->insert('venue', $data2);
 
@@ -104,7 +105,8 @@
                 <th>Capacity</th>
                 <th>Location</th>
                 <th>Availability</th>
-                <th>Booked By (User) </th>
+                <th>Booked By (User ID)</th>
+                <th>Expires On</th>
             </tr>
         </thead>
 
@@ -116,29 +118,35 @@
                 foreach ($query->result() as $row)
                 {
                     echo "<tr>";
-    				echo"<td><font color='black'>$row->venue_id</font></td>";
-    				echo"<td><font color='black'>$row->venue_name</font></td>";
-    				echo"<td><font color='black'>$row->venue_capacity</font></td>";
-                    echo"<td><font color='black'>$row->venue_location</font></td>";
-                    $huf = $row->venue_id;
+                
                    if ($row->venue_avail == 0)
                     {
-                        echo"<td><font color='black'>BOOKED</font></td>";
+                        echo"<td><font color='red'><b>$row->venue_id</b></font></td>";
+                        echo"<td><font color='red'><b>$row->venue_name</b></font></td>";
+                        echo"<td><font color='red'><b>$row->venue_capacity</b></font></td>";
+                        echo"<td><font color='red'><b>$row->venue_location</b></font></td>";
+                        echo"<td><font color='red'><b>BOOKED</b></font></td>";
                         
                         foreach ($query2->result() as $row2)
                         {
                             if ($row->venue_id == $row2->booking_venue_id)
                             {
-                                echo"<td><font color='black'>$row2->booking_user_id</font></td>";
+                                echo"<td><font color='red'><b>$row2->booking_user_id</b></font></td>";
                             }
                         }
-                        
+
+                        echo"<td><font color='red'><b>$row->venue_expiry</b></font></td>";
                     }
         
                     else
                     {
-                        echo"<td><font color='black'>AVAILABLE</font></td>";
-                        echo"<td><font color='black'>N/A</font></td>";
+                        echo"<td><font color='green'><b>$row->venue_id</b></font></td>";
+                        echo"<td><font color='green'><b>$row->venue_name</b></font></td>";
+                        echo"<td><font color='green'><b>$row->venue_capacity</b></font></td>";
+                        echo"<td><font color='green'><b>$row->venue_location</b></font></td>";
+                        echo"<td><font color='green'><b>AVAILABLE</b></font></td>";
+                        echo"<td><font color='green'><b>N/A</b></font></td>";
+                        echo"<td><font color='green'><b>$row->venue_expiry</b></font></td>";
                     }
                 }   
                     echo "</tr>";
@@ -179,7 +187,8 @@
                {
                 $data4 = array
                     (
-                    'venue_avail' => 1
+                    'venue_avail' => 1,
+                    'venue_expiry' => "N/A"
                     );
                 $this->db->set($data4);
                 $this->db->where('venue_id', $_POST['vID']);
