@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -36,24 +37,68 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <li class="nav-item">
                         <font color="black">~~~</font>
                     </li>
+                    
+                    <?php   
+                        if(isset($_SESSION['check']))
+                        {
+                            if ($_SESSION['check'] == true)
+                            {
+                                print
+                                "<li class='nav-item' style='font-size: 20px; font-weight: bolder;'>
+                                <a class='nav-link' href='http://localhost/VRS/index.php/venue'>
+                                    Venue [ADMIN]
+                                </a>
+                                </li>
+                                ";
+                            }
+    
+                            else
+                            {
+                                print 
+                                "<li class='nav-item' style='font-size: 20px; font-weight: bolder;'>
+                                <a class='nav-link' href='http://localhost/VRS/index.php/venueCust'>
+                                    Venue
+                                </a>
+                                </li>
+                                ";
+                            }
+                        }
 
-                    <li class="nav-item" style="font-size: 20px; font-weight: bolder;">
-                        <a class="nav-link" href="http://localhost/VRS/index.php/venue">
-                            Venue
-                        </a>
-                    </li>
+                    ?>
+                    
+
 
                     <li class="nav-item">
                         <font color="black">~~~</font>
                     </li>
 
-                    <li class="nav-item" style="font-size: 20px; font-weight: bolder;">
-                        <a class="nav-link" href="http://localhost/VRS/index.php/venueCust">
-                            Venue (Customer)
-                        </a>
+
+                    <li class="nav-item">
+                        <font color="black">~~~</font>
                     </li>
 
+                    <li class="nav-item dropdown" style="font-size: 20px; background-color: purple; font-weight: bolder;">
+                        <?php
 
+                        if (isset($_SESSION['check']))
+                        {
+                            $User = $_SESSION["transfer"];
+
+                            print"<a class='nav-link dropdown-toggle' href='#'' id='navbardrop' data-toggle='dropdown'> 
+                                    Hello, $User </a>
+                                    <div class='dropdown-menu' style = 'background-color: grey;'>
+                                    <a class='dropdown-item' href='sessiondelete'>Log Out</a>
+                                    </div>
+                                    ";
+                        } 
+
+                        else
+                        {
+                            print"<a class='nav-link' href='landingbay'>Login / Register</a>";
+                        }
+                        ?>
+                    </li>
+                    
                     <li class="nav-item">
                         <font color="black">~~~</font>
                     </li>
