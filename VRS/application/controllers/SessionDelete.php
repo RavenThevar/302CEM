@@ -1,16 +1,16 @@
 <?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Venue extends CI_Controller 
+class SessionDelete extends CI_Controller 
 {
     public function index()
 	{
 		$this->load->database();
 
-		$data['title'] = "VRS - VIEW / ALTER VENUE";
+		$data['title'] = "VRS - Logout";
 
 		$this->load->view('header', $data);
-		$this->load->view('venue');
+		$this->load->view('sessiondelete');
 		$this->load->view('footer');
 	}
 }

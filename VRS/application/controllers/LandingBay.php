@@ -1,16 +1,16 @@
 <?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Venue extends CI_Controller 
+class LandingBay extends CI_Controller 
 {
     public function index()
 	{
 		$this->load->database();
 
-		$data['title'] = "VRS - VIEW / ALTER VENUE";
+		$data['title'] = "VRS - LOGIN/REGISTER";
 
 		$this->load->view('header', $data);
-		$this->load->view('venue');
+		$this->load->view('landingbay');
 		$this->load->view('footer');
 	}
 }
