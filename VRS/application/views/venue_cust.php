@@ -84,7 +84,8 @@
             $data3 = array
                 (
                 'booking_venue_id' => $_POST['vID'],
-                'booking_user_id' => "1"
+                'booking_user_id' => $_SESSION["transfer"],
+                'booking_notify' => 0
                 );
             $this->db->insert('booking', $data3);
 
@@ -129,7 +130,7 @@
 
                 foreach ($query->result() as $row)
                 {
-                    if ($row->booking_user_id == 1)
+                    if ($row->booking_user_id == $_SESSION["transfer"] && $row->booking_notify == 0)
                     {
                         foreach ($query2->result() as $row2)
                         {
@@ -153,3 +154,7 @@
     </table>    
 
 </div>
+
+</br>
+</br>
+     
