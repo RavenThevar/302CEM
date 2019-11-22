@@ -193,10 +193,14 @@
                 $this->db->set($data4);
                 $this->db->where('venue_id', $_POST['vID']);
                 $this->db->update('venue');
-                
-                $this->db->select('booking_user_id');
+
+                $data8 = array
+                    (
+                        'booking_notify' => 1
+                    );
+                $this->db->set($data8);
                 $this->db->where('booking_venue_id', $_POST['vID']);
-                $this->db->delete('booking');
+                $this->db->update('booking');
         
                 print "</br>
                 <div class = 'container'>
