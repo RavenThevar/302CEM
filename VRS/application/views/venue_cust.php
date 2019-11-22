@@ -2,49 +2,6 @@
 </br>
 </br>
 
-<div class ="container">
-    <div row>
-        <h1>Available Venues:</h1>
-    </div>
-    <table class="table table-hover table-striped table-bordered">
-        
-        <thead class="thead-light">
-            <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Capacity</th>
-                <th>Location</th>
-                <th>Availability</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <?php 
-                $query = $this->db->get('venue');
-
-                foreach ($query->result() as $row)
-                {
-                    if ($row->venue_avail == 1)
-                    {
-                        echo "<tr>";
-                        echo"<td><font color='black'>$row->venue_id</font></td>";
-                        echo"<td><font color='black'>$row->venue_name</font></td>";
-                        echo"<td><font color='black'>$row->venue_capacity</font></td>";
-                        echo"<td><font color='black'>$row->venue_location</font></td>";
-                        echo"<td><font color='green'><b>AVAILABLE</b></font></td>";
-                    }
-                }   
-                    echo "</tr>";
-            ?>
-        </tbody>
-
-    </table>    
-
-</div>
-
-</br>
-</br>
-
 <div class="container">
     <div class="row">
         <h1>Book Venue:</h1>
@@ -64,7 +21,7 @@
         </div>
         </br>
         <div class="col-lg-2">
-            <button type="submit" class="btn btn-primary">BOOK</button>
+            <button type="submit" class="btn btn-outline-primary">BOOK</button>
         </div>
 
     </form>
@@ -109,7 +66,7 @@
 
 <div class ="container">
     <div row>
-        <h1>Your Booked Venues:</h1>
+        <h1>Available Venues:</h1>
     </div>
     <table class="table table-hover table-striped table-bordered">
         
@@ -119,35 +76,27 @@
                 <th>Name</th>
                 <th>Capacity</th>
                 <th>Location</th>
-                <th>Due On</th>
+                <th>Availability</th>
             </tr>
         </thead>
 
         <tbody>
             <?php 
-                $query = $this->db->get('booking');
-                $query2 = $this->db->get('venue');
+                $query = $this->db->get('venue');
 
                 foreach ($query->result() as $row)
                 {
-                    if ($row->booking_user_id == $_SESSION["transfer"] && $row->booking_notify == 0)
+                    if ($row->venue_avail == 1)
                     {
-                        foreach ($query2->result() as $row2)
-                        {
-                            if ($row->booking_venue_id == $row2->venue_id)
-                            {
-                                echo "<tr>";
-                                echo"<td><font color='black'>$row2->venue_id</font></td>";
-                                echo"<td><font color='black'>$row2->venue_name</font></td>";
-                                echo"<td><font color='black'>$row2->venue_capacity</font></td>";
-                                echo"<td><font color='black'>$row2->venue_location</font></td>";
-                                echo"<td><font color='red'><b>$row2->venue_expiry</b></font></td>";    
-                            }
-                        }
+                        echo "<tr>";
+                        echo"<td><font color='black'>$row->venue_id</font></td>";
+                        echo"<td><font color='black'>$row->venue_name</font></td>";
+                        echo"<td><font color='black'>$row->venue_capacity</font></td>";
+                        echo"<td><font color='black'>$row->venue_location</font></td>";
+                        echo"<td><font color='green'><b>AVAILABLE</b></font></td>";
                     }
                 }   
-                
-                echo "</tr>";
+                    echo "</tr>";
             ?>
         </tbody>
 
@@ -157,4 +106,5 @@
 
 </br>
 </br>
+
      
