@@ -7,7 +7,7 @@ class Venue extends CI_Controller
 	{
 		$this->load->database();
 
-		$data['title'] = "VRS - VENUE";
+		$data['title'] = "VRS - VIEW / ALTER VENUE";
 
 		$this->load->view('header', $data);
 		$this->load->view('venue');
