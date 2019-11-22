@@ -24,7 +24,7 @@ session_start();
         <nav class="navbar navbar-expand-sm navbar-dark fixed-top" style="background-color: black;">
         
             <a class="navbar-brand" href="http://localhost/VRS/index.php/homepage">
-            Home
+            <b>Home</b>
             </a>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -46,7 +46,17 @@ session_start();
                                 print
                                 "<li class='nav-item' style='font-size: 20px; font-weight: bolder;'>
                                 <a class='nav-link' href='http://localhost/VRS/index.php/venue'>
-                                    Venue [ADMIN]
+                                    View / Alter Venue [ADMIN]
+                                </a>
+                                </li>
+
+                                <li class='nav-item'>
+                                <font color='black'>~~~</font>
+                                </li>
+
+                                <li class='nav-item' style='font-size: 20px; font-weight: bolder;'>
+                                <a class='nav-link' href='http://localhost/VRS/index.php/venueadd'>
+                                    Add Venue [ADMIN]
                                 </a>
                                 </li>
                                 ";
@@ -54,30 +64,52 @@ session_start();
     
                             else
                             {
+                                $query = $this->db->get('booking');
+                                $countN = 0;
+                                
+                                foreach ($query->result() as $row)
+                                {
+                                    $countN++;
+                                }
+
                                 print 
                                 "<li class='nav-item' style='font-size: 20px; font-weight: bolder;'>
                                 <a class='nav-link' href='http://localhost/VRS/index.php/venueCust'>
-                                    Venue
+                                    View / Book Venue
                                 </a>
                                 </li>
+
+                                <li class='nav-item'>
+                                <font color='black'>~~~</font>
+                                </li>
+
+                                <li class='nav-item' style='font-size: 20px; font-weight: bolder;'>
+                                <a class='nav-link' href='http://localhost/VRS/index.php/venuecustbook'>
+                                    View / Cancel Booked Venue
+                                </a>
+                                </li>
+
+                                <li class='nav-item'>
+                                <font color='black'>~~~</font>
+                                </li>
+
+                                <li class='nav-item' style='font-size: 20px; font-weight: bolder;'>
+                                <a class='nav-link' href='http://localhost/VRS/index.php/notifications'>
+                                    Notifications <font color='brown'>($countN)</font>
+                                </a>
+                                </li>
+
                                 ";
                             }
                         }
 
                     ?>
-                    
-
-
+                
                     <li class="nav-item">
                         <font color="black">~~~</font>
                     </li>
 
-
-                    <li class="nav-item">
-                        <font color="black">~~~</font>
-                    </li>
-
-                    <li class="nav-item dropdown" style="font-size: 20px; background-color: purple; font-weight: bolder;">
+                    <li class="nav-item dropdown" style="font-size: 20px; background-color: brown; font-weight: bolder;">
                         <?php
 
                         if (isset($_SESSION['check']))
@@ -86,7 +118,7 @@ session_start();
 
                             print"<a class='nav-link dropdown-toggle' href='#'' id='navbardrop' data-toggle='dropdown'> 
                                     Hello, $User </a>
-                                    <div class='dropdown-menu' style = 'background-color: grey;'>
+                                    <div class='dropdown-menu' style = 'background-color: #e9ecef;'>
                                     <a class='dropdown-item' href='sessiondelete'>Log Out</a>
                                     </div>
                                     ";
@@ -94,7 +126,7 @@ session_start();
 
                         else
                         {
-                            print"<a class='nav-link' href='landingbay'>Login / Register</a>";
+                            print"<a class='nav-link' href='http://localhost/VRS/index.php/landingbay'>Login / Register</a>";
                         }
                         ?>
                     </li>
