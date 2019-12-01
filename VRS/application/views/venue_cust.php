@@ -10,13 +10,13 @@
     <form name = "venueCustChange" method = "POST">
         <div class="col-lg-2">
             <div class="form-group">
-                <label for="vID">#Venue ID:</label>
-                <input type="text" class="form-control" id="vID" placeholder="e.g: 22" name="vID">
+                <label for="vID9">#Venue ID:</label>
+                <input type="text" class="form-control" id="vID9" placeholder="e.g: 22" name="vID9">
             </div>
 
             <div class="form-group">
-                <label for="vE">#Book Until:</label>
-                <input type="text" class="form-control" id="vE" placeholder="e.g: 12/12/2019" name="vE">
+                <label for="vE9">#Book Until:</label>
+                <input type="text" class="form-control" id="vE9" placeholder="e.g: 12/12/2019" name="vE9">
             </div>
         </div>
         </br>
@@ -27,35 +27,52 @@
     </form>
 
     <?php
-        if(isset ($_POST['vID']))
+        if (isset ($_POST["vID9"]))
         {
-            $data1 = array
+            if (is_numeric($_POST["vID9"]))
+            {
+                $data1 = array
                 (
                 'venue_avail' => 0,
-                'venue_expiry' => $_POST['vE']
+                'venue_expiry' => $_POST["vE9"]
                 );
-            $this->db->set($data1);
-            $this->db->where('venue_id', $_POST['vID']);
-            $this->db->update('venue');
+                $this->db->set($data1);
+                $this->db->where('venue_id', $_POST["vID9"]);
+                $this->db->update('venue');
 
-            $data3 = array
-                (
-                'booking_venue_id' => $_POST['vID'],
-                'booking_user_id' => $_SESSION["transfer"],
-                'booking_notify' => 0
-                );
-            $this->db->insert('booking', $data3);
+                $data3 = array
+                    (
+                    'booking_venue_id' => $_POST["vID9"],
+                    'booking_user_id' => $_SESSION["transfer"],
+                    'booking_notify' => 0
+                    );
+                $this->db->insert('booking', $data3);
 
-            print "</br>
-            <div class = 'container'>
-             <font color = 'green'> You have successfully booked this venue. </font>
-            </div>
-            </br>
-           ";
+                print "</br>
+                <div class = 'container'>
+                <font color = 'green'> You have successfully booked this venue. </font>
+                </div>
+                </br>
+                ";
 
-            $page = $_SERVER['PHP_SELF'];
-            $sec = "2";
-            header("Refresh: $sec; url=$page");
+                $page = $_SERVER['PHP_SELF'];
+                $sec = "2";
+                header("Refresh: $sec; url=$page");
+            }
+
+            else
+            {
+                print "</br>
+                <div class = 'container'>
+                <font color = 'red'> Invalid option entered for the aboved entries!</font>
+                </div>
+                </br>
+                ";
+
+                $page = $_SERVER['PHP_SELF'];
+                $sec = "2";
+                header("Refresh: $sec; url=$page");
+            }
         }
     ?>
 
